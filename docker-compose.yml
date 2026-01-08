@@ -1,0 +1,50 @@
+services:
+
+  backend:
+    build: ./backend/
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - frontend-backend
+      - backend-bddapi
+
+  bdd:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=lol
+    volumes:
+      - bdd:/var/lib/postgresql
+      - ./initdb:/docker-entrypoint-initdb.d
+    networks:
+      - bdd-bddapi
+
+  bdd_api:
+    build: ./BddInterface/
+    restart: always
+    networks:
+      - bdd-bddapi
+    ports:
+      - 8082:80
+
+  frontend:
+    build: ./frontend/
+    restart: always
+    ports:
+      - 8081:80
+    networks:
+      - frontend-backend
+
+volumes:
+  bdd:
+    driver: local
+
+
+networks:
+  backend-bddapi:
+    driver: bridge
+  frontend-backend:
+    driver: bridge
+  bdd-bddapi:
+    driver: bridge
