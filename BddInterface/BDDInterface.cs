@@ -20,7 +20,7 @@ internal static class BddInterface
         
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        
+        builder.WebHost.UseUrls("http://0.0.0.0:6000");
         WebApplication app = builder.Build();
         
         // Configure the HTTP request pipeline.
@@ -58,7 +58,7 @@ internal static class BddInterface
             .WithName("Receiving Logs")
             .WithOpenApi();
         
-        app.MapGet("/search/{field}/{query:minlength(4)}/{orderby}/{limit:int?}/{offset:int?}", async (string field, string query, string orderby, int? limit, int? offset) =>
+        app.MapGet("/search/{field}/{query}/{orderby}/{limit:int?}/{offset:int?}", async (string field, string query, string orderby, int? limit, int? offset) =>
             {
                 return await SearchLogs(field, query, orderby, limit, offset);
             }).WithName("Searching Logs")
@@ -72,7 +72,7 @@ internal static class BddInterface
     private static async Task<string> SearchLogs(string field, string query, string orderby, int? limit, int? offset)
     {
         await using NpgsqlCommand cmd = dataSource.CreateCommand(
-            "SELECT row FROM logs WHERE row->> $1 LIKE $2 ORDER BY row->> $3 LIMIT $4 OFFSET $5");
+            "SELECT row FROM logs WHERE row->> $1 ILIKE $2 ORDER BY row->> $3 LIMIT $4 OFFSET $5");
         cmd.Parameters.AddWithValue(field);
         cmd.Parameters.AddWithValue(query);
         cmd.Parameters.AddWithValue(orderby);

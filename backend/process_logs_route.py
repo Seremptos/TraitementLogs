@@ -1,3 +1,4 @@
+import io
 import os
 import uuid
 from http import HTTPStatus
@@ -29,14 +30,12 @@ def process_logs(api_url: str) -> Response:
     uploaded_file: FileStorage = request.files['file']
 
     if uploaded_file.filename != "":
-        filename: str = UPLOADS_PATH + str(uuid.uuid4())+".csv"
-        uploaded_file.save(filename)
         try:
-            return process_csv(api_url, filename)
+            return process_csv(api_url, io.TextIOWrapper(uploaded_file.stream, encoding='utf-8-sig'))
         except ValueError:
             return Response("Bad file.", status=HTTPStatus.BAD_REQUEST)
-        except requests.exceptions.ConnectionError:
-            return Response("An error occured.", status=HTTPStatus.BAD_GATEWAY)
+        except requests.exceptions.ConnectionError as e:
+            return Response("An error occured." + str(e), status=HTTPStatus.BAD_GATEWAY)
         except (Exception,):
             return Response("An error occured.", status=HTTPStatus.INTERNAL_SERVER_ERROR)
 

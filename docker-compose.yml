@@ -4,19 +4,20 @@ services:
     build: ./backend/
     restart: always
     ports:
-      - 8080:8080
+      - "5000:5000"
     networks:
-      - frontend-backend
+      - nginx
       - backend-bddapi
+    depends_on:
+      - bdd_api
 
   bdd:
-    image: postgres
+    build: ./postgres/
     restart: always
-    environment:
-      - POSTGRES_PASSWORD=lol
     volumes:
       - bdd:/var/lib/postgresql
-      - ./initdb:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
     networks:
       - bdd-bddapi
 
@@ -24,17 +25,30 @@ services:
     build: ./BddInterface/
     restart: always
     networks:
+      - backend-bddapi
       - bdd-bddapi
     ports:
-      - 8082:80
+      - "6000:6000"
+    depends_on:
+      - bdd
 
   frontend:
     build: ./frontend/
     restart: always
     ports:
-      - 8081:80
+      - "4000:4000"
     networks:
-      - frontend-backend
+      - nginx
+  
+  nginx:
+    build: ./nginx
+    ports:
+     - "8080:80"
+    networks:
+     - nginx
+    depends_on:
+     - frontend
+     - backend
 
 volumes:
   bdd:
@@ -44,7 +58,7 @@ volumes:
 networks:
   backend-bddapi:
     driver: bridge
-  frontend-backend:
+  nginx:
     driver: bridge
   bdd-bddapi:
     driver: bridge

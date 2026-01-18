@@ -7,7 +7,7 @@ from process_logs_route import process_logs
 
 app = Flask("TraitementLogs")
 
-DATABASE_API_URL: Final[str] = "http://localhost:5038"
+DATABASE_API_URL: Final[str] = "http://bdd_api:6000"
 SEND_LOGS_URL: Final[str] = DATABASE_API_URL+"/logsreceive"
 SEARCH_LOGS_URL: Final[str] = DATABASE_API_URL+"/search/"
 
@@ -20,4 +20,4 @@ def explore_logs_route(search_path) -> Response:
     return explore_logs(SEARCH_LOGS_URL + search_path)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)

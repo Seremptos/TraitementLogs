@@ -1,6 +1,7 @@
 import hashlib
 import json
 from http import HTTPStatus
+from io import TextIOWrapper
 
 import flask
 import os
@@ -27,28 +28,24 @@ def send_to_database(api_url: str, buffer: list[dict[str, Collection[str]]]) -> 
 
 
 
-def process_csv(api_url: str, filepath: str) -> Response :
-    with open(filepath, encoding="utf-8-sig") as logfile:
-        csvreader = read_csv(logfile)
-        header: list[str] = next(csvreader)
-        buffer: list[dict[str, Collection[str]]] = []
+def process_csv(api_url: str, logfile: TextIOWrapper) -> Response :
+    csvreader = read_csv(logfile)
+    header: list[str] = next(csvreader)
+    buffer: list[dict[str, Collection[str]]] = []
 
-        for row in csvreader:
-            row_joined: str = str.join('', row)
-            row_hash: str = hashlib.sha256(row_joined.encode(CHARSET), usedforsecurity=False).hexdigest()
-            # Vérifier avec la base de données pour chaque log
-            buffer.append(LogLine(row, row_hash).to_dict(header))
-            # Envoyer à la BDD
-            if len(buffer) >= MIN_ROW_TO_SEND:
-                if not send_to_database(api_url, buffer):
-                    os.remove(filepath)
-                    return Response("An error occured.", status=HTTPStatus.BAD_GATEWAY)
-        # Envoyer ce qu'il reste
-        if len(buffer) > 0:
+    for row in csvreader:
+        row_joined: str = str.join('', row)
+        row_hash: str = hashlib.sha256(row_joined.encode(CHARSET), usedforsecurity=False).hexdigest()
+        # Vérifier avec la base de données pour chaque log
+        buffer.append(LogLine(row, row_hash).to_dict(header))
+        # Envoyer à la BDD
+        if len(buffer) >= MIN_ROW_TO_SEND:
             if not send_to_database(api_url, buffer):
-                os.remove(filepath)
                 return Response("An error occured.", status=HTTPStatus.BAD_GATEWAY)
-    os.remove(filepath)
+    # Envoyer ce qu'il reste
+    if len(buffer) > 0:
+        if not send_to_database(api_url, buffer):
+            return Response("An error occured.", status=HTTPStatus.BAD_GATEWAY)
     return Response(status=HTTPStatus.OK)
 
 

@@ -22,25 +22,32 @@
       <button type="submit">Envoyer</button>
     </form>
 
+    <div v-if="spinner">
+      <span class="spinner"></span>
+    </div>
 
     <h2>Recherche de logs</h2>
     <form>
-      <div>
+      <div style="padding-bottom: 10px">
         <label for="field">Champ à rechercher :</label>
         <input id="field" v-model="queryParams.field" type="text" required/>
+        <p style="font-style: italic">(Le même que dans le CSV d'origine)</p>
       </div>
-      <div>
+      <div style="padding-bottom: 10px">
         <label for="query">Ce qu'on recherche :</label>
         <input id="query" v-model="queryParams.query" type="text" required/>
+        <p style="font-style: italic">(Utilisez % et _ comme dans un LIKE sql)</p>
       </div>
-      <div>
+      <div style="padding-bottom: 10px">
         <label for="order">Champ sur lequel trier :</label>
         <input id="order" v-model="queryParams.order" type="text" required/>
+        <p style="font-style: italic">(Le même que dans le CSV d'origine)</p>
       </div>
       <button type="button" v-on:click="queryLogs(queryParams.field, queryParams.query, queryParams.order, queryParams.limit, queryParams.offset)">Query</button>
     </form>
 
     <div v-if="json">
+      Nombre de lignes : {{Object.keys(json).length}}
       <table>
         <thead>
         <tr>
@@ -71,13 +78,14 @@ export default {
       formData: {
         file: null,
       },
+      spinner: false,
       success: false,
       json: null,
       queryParams: {
         field: null,
         query: null,
         order: null,
-        limit: 10,
+        limit: 10000000,
         offset: 0
       }
     };
@@ -97,6 +105,7 @@ export default {
       this.error.msg = null
       this.error.httpstatus = null
       this.success = false
+      this.spinner = true
 
       if(this.formData.file === null) {
         console.log("No file in input!")
@@ -109,14 +118,16 @@ export default {
         }
       }
 
-      axios.post("http://localhost:5000/process", this.formData, config)
+      axios.post("/api/process", this.formData, config)
           .then((response) => {
             console.log(response);
             this.success = true;
           })
           .catch((error) => {
             this.handleErrors(error)
-          });
+          }).finally(() => {
+            this.spinner = false
+      });
     },
     handleFile(event) {
       this.formData.file = event.target.files[0];
@@ -126,15 +137,18 @@ export default {
       this.error.msg = null
       this.error.httpstatus = null
       this.success = false
+      this.spinner = true
 
-      axios.get(`http://localhost:5000/search/${field}/${whatToSearchFor}/${fieldToOrderBy}/${limit}/${offset}`)
+      axios.get(encodeURI(`api/search/${field}/${whatToSearchFor}/${fieldToOrderBy}/${limit}/${offset}`))
           .then((response) => {
             console.log(response.data)
             this.json = response.data
           })
           .catch((error) => {
             this.handleErrors(error)
-          })
+          }).finally(() => {
+        this.spinner = false
+      });
     },
 
     handleErrors(error) {
