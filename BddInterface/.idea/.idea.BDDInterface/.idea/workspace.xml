@@ -16,27 +16,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8cb7395f-97d5-401a-b5c7-152db26e8066" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../backend/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/run.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BDDInterface/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BDDInterface/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BDDInterface.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BDDInterface.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Properties/launchSettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/RENDU.md" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/RENDU.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/uploads/22578adc-012e-428f-9436-3c05ac67aa18.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/uploads/4a54d742-41c1-4065-a4e8-71c610d0fffe.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/uploads/81c20f06-01b7-4783-8f90-936c6d3929e1.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/uploads/95d03cca-457b-4525-85a9-3845abba862d.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/uploads/fc34513f-377f-4cc2-a01c-89eeaae07cba.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../database/Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../database/create-db.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/run.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/run.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +107,7 @@
       </map>
     </option>
   </component>
-  <component name="RunManager" selected="HTTP Request.BddInterface | #1">
+  <component name="RunManager" selected=".NET Launch Settings Profile.BddInterface: http">
     <configuration name="BddInterface | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/BddInterface.http" executionIdentifier="#1" runType="Run single request">
       <method v="2" />
     </configuration>

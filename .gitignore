@@ -1,1 +1,3 @@
 workspace/
+backend/__pycache__/
+backend/.mypy_cache

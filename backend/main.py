@@ -1,9 +1,12 @@
-from typing import Final
+from gevent import monkey  # type: ignore
+monkey.patch_all()
 
+from typing import Final
 from flask import Flask, Response
 
 from explore_logs_route import explore_logs
 from process_logs_route import process_logs
+
 
 app = Flask("TraitementLogs")
 

@@ -46,9 +46,6 @@ services:
      - "8080:80"
     networks:
      - nginx
-    depends_on:
-     - frontend
-     - backend
 
 volumes:
   bdd:
