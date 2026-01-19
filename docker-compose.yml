@@ -4,12 +4,14 @@ services:
     build: ./backend/
     restart: always
     ports:
-      - "5000:5000"
+      - "5000-5500:5000"
     networks:
       - nginx
       - backend-bddapi
     depends_on:
       - bdd_api
+    deploy:
+      replicas: 4
 
   bdd:
     build: ./postgres/
@@ -36,9 +38,11 @@ services:
     build: ./frontend/
     restart: always
     ports:
-      - "4000:4000"
+      - "4000-4500:4000"
     networks:
       - nginx
+    deploy:
+      replicas: 2
   
   nginx:
     build: ./nginx

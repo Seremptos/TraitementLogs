@@ -1,6 +1,5 @@
 import io
 import os
-import uuid
 from http import HTTPStatus
 from typing import Final
 
@@ -34,9 +33,10 @@ def process_logs(api_url: str) -> Response:
             return process_csv(api_url, io.TextIOWrapper(uploaded_file.stream, encoding='utf-8-sig'))
         except ValueError:
             return Response("Bad file.", status=HTTPStatus.BAD_REQUEST)
-        except requests.exceptions.ConnectionError as e:
-            return Response("An error occured." + str(e), status=HTTPStatus.BAD_GATEWAY)
-        except (Exception,):
+        except requests.exceptions.ConnectionError:
+            return Response("An error occured.", status=HTTPStatus.BAD_GATEWAY)
+        except Exception as e:
+            print(str(e))
             return Response("An error occured.", status=HTTPStatus.INTERNAL_SERVER_ERROR)
 
     return missing_file
